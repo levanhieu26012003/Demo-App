@@ -1,10 +1,14 @@
-from models import Products, Category
+from models import Product, Category, User
 
 def load_nav():
     return Category.query.all()
 
 def load_categories(kw):
-    products = Products.query
+    products = Product.query
     if kw:
-        products = products.filter(Products.name.contains(kw))
+        products = products.filter(Product.name.contains(kw))
     return products
+
+
+def get_user_by_id(user_id):
+    return User.query.get(user_id)
