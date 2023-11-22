@@ -6,11 +6,14 @@
         </button>
         <div class="collapse navbar-collapse" id="mynavbar">
             <ul class="navbar-nav me-auto">
-                {% for x in nav%}
+                {% for x in categories%}
                 <li class="nav-item">
-                    <a class="nav-link" href="javascript:void(0)">{{x.name}}</a>
+                    <a class="nav-link"  href="/?cate_id={{ x.id }}">{{x.name}}</a>
                 </li>
                 {% endfor %}
+                <li class="nav-item">
+                    <a class="nav-link active text-danger"  href="/">Giỏ hàng &#128722;<span class="badge bg-danger "> 0 </span></a>
+                </li>
             </ul>
             <form class="d-flex" method="get" action="/">
                 <input class="form-control me-2" type="text"  name= "kw" placeholder="Nhập thông tin...">

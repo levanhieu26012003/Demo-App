@@ -9,9 +9,14 @@
 {% extends 'layout/base.html' %}
 
 {% block content%}
+<ul class="pagination">
+    {% for i in range (1, pagenumber) %}
+  <li class="page-item"><a class="page-link" href="/?page={{ i }}">{{i}}</a></li>
+    {% endfor%}
+</ul>
 <section class="container">
     <div class="row">
-        {% for x in categories%}
+        {% for x in products%}
         <div style="padding :  10px" class="col-md-3">
             <div class="card" >
                 <img class="card-img-top" src="{{x.image}}" alt="Card image">

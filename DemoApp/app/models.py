@@ -1,8 +1,13 @@
-from flask_login import UserMixin
-from sqlalchemy import Column, Integer, String, Float, ForeignKey
-from flask_sqlalchemy import SQLAlchemy
-from DemoApp.app import app, db
+from sqlalchemy import Column, Integer, String, Float, ForeignKey, Enum
 from sqlalchemy.orm import relationship
+from DemoApp.app import app, db
+from flask_login import UserMixin
+import enum
+
+
+class UserRoleEnum(enum.Enum):
+    USER = 1
+    ADMIN = 2
 
 
 class User(db.Model, UserMixin):
@@ -11,9 +16,11 @@ class User(db.Model, UserMixin):
     username = Column(String(255), nullable=False, unique=True)
     password = Column(String(255), nullable=False)
     avatar = Column(String(255), default='https://th.bing.com/th/id/OIP.sG3uELc_wRRSpvGfwsvnPQHaHa?pid=ImgDet&rs=1')
+    user_role = Column(Enum(UserRoleEnum), default=UserRoleEnum.USER)
 
     def __str__(self):
         return self.name
+
 
 class Category(db.Model):
     id = Column(Integer, primary_key=True, autoincrement=True)
@@ -38,19 +45,20 @@ class Product(db.Model):
 if __name__ == "__main__":
     with app.app_context():
         # db.drop_all()
-        db.create_all()
+        # db.create_all()
         import hashlib
-        u = User(name = "Admin", username = "admin", password = str(hashlib.md5('123456'.encode('utf-8')).hexdigest()))
+        # u = User(name = "Admin", username = "admin", password = str(hashlib.md5('123456'.encode('utf-8')).hexdigest()))
+        u = User(name = "Hieu", username = "hieu", password = str(hashlib.md5('abcd'.encode('utf-8')).hexdigest()), user_role = UserRoleEnum.ADMIN)
+
         db.session.add(u)
         db.session.commit()
 
-        #
         # c1 = Category(name = "Samsung")
         # c2 = Category(name = "Apple")
         # c3 = Category(name="China")
         # db.session.add_all([c1,c2,c3])
         # db.session.commit()
-
+        #
         #
         # p1 = Product(name = "Galaxy Ultra",image = "https://th.bing.com/th/id/OIP.sG3uELc_wRRSpvGfwsvnPQHaHa?pid=ImgDet&rs=1",price = 20,catagory_Id = 1)
         # p2 = Product(name = "Galaxy S8",image = "https://th.bing.com/th/id/OIP.sG3uELc_wRRSpvGfwsvnPQHaHa?pid=ImgDet&rs=1",price = 30,catagory_Id = 1)
